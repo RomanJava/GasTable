@@ -1,15 +1,16 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumnModel;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 /**
  * Created by Администратор on 15.09.2017.
  */
 public class Controller {
-    private MainTable view=null;
+    private View view=null;
     private DataModel dataModel=null;
     private ColumnModel columnModel =null;
     private SelectionModel selectionModel=null;
@@ -27,11 +28,9 @@ public class Controller {
 */
 
 
-    public Controller(MainTable view) {
+    public Controller(View view) {
         this.view=view;
-        this.dataModel = new DataModel();
-        this.columnModel =new ColumnModel();
-        this.selectionModel=new SelectionModel();
+        this.dataModel=new DataModel();
     }
 
     public int[] getSelectedRows() {
@@ -72,11 +71,7 @@ public class Controller {
     class RemoveSelectedRowListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            for (int i = Controller.this.getSelectedRows().length-1; i>=0; i--) {
-                System.out.println(Controller.this.getSelectedRows()[i]);
-                dataModel.removeRow(Controller.this.getSelectedRows()[i]);
-
-            }
+            dataModel.removSelectedRows(Controller.this.getSelectedRows());
         }
     }
 
@@ -98,15 +93,16 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            DataModel.saveDataModel(dataModel);
-            columnModel.saveColumnModel();
+            dataModel.saveDataModel();
+//            columnModel.saveColumnModel();
         }
     }
 
     class LoadListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            dataModel.setDataVector(dataModel.loadDataModel());
-            columnModel=columnModel.loadColumnModel();
+            Vector<Vector> dataVector=dataModel.loadDataModel();
+            dataModel.setDataVector(dataVector,dataModel.getNames());
+//            columnModel=columnModel.loadColumnModel();
             view.restoreView();
 
 

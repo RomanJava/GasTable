@@ -1,5 +1,4 @@
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -9,45 +8,38 @@ import java.util.Vector;
 /**
  * Created by Администратор on 14.09.2017.
  */
-public class DataModel extends DefaultTableModel implements Serializable{
-    private final Vector NAMES= new Vector(Arrays.asList(new String[]{"Пробег","Дата", "Объем", "Сумма", "Цена", "АЗС"}));
-    static Object[] newNames=new String[]{"Пробег","Дата", "Объем", "Сумма", "Цена", "АЗС"};
-    static Object[][] newEmptyRow={{new Integer(0),new Date(),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),""}};
-    private Vector<Vector> datum =new Vector();
-/*    private Vector<Date> date =new Vector<>();
-    private Vector<BigDecimal> volumes=new Vector<>();
-    private Vector<BigDecimal> sums=new Vector<>();
-    private Vector<BigDecimal> prices=new Vector<>();
-    private Vector<String> stations=new Vector<>();
-    {datum.add(date);
-    datum.add(volumes);
-    datum.add(sums);
-    datum.add(prices);
-    datum.add(stations);
-    }*/
+public class DataModel extends DefaultTableModel{
 
+    private static final String[] NAMES=new String[]{"Пробег","Дата", "Объем", "Сумма", "Цена", "АЗС"};
+    private static final Object[][] NEWEMPTYROWS={{new Integer(0),new Date(),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),""}};
+    private static final Object[] NEWEMPTYROW={new Integer(0),new Date(),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),""};
 
 
     public DataModel() {
-        super(newEmptyRow,newNames);
-        setDataVector(datum);
-        addNewEmptyRow();
+        super(NEWEMPTYROWS,NAMES);
     }
 
-    public DataModel(Vector<Vector> datum) {
-        this();
-        this.datum = datum;
-    }
 
     public void addNewEmptyRow(){
-        Object[] newEmptyRow={new Integer(0),new Date(),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),""};
+        addRow(new Vector(Arrays.asList(NEWEMPTYROW)));
     }
 
-    public static void saveDataModel(DataModel dataModel){
+    public void removSelectedRows(int[] selectedRows){
+        for (int i = selectedRows.length-1; i>=0; i--) {
+            System.out.println(selectedRows[i]);
+            removeRow(selectedRows[i]);
+        }
+    }
+
+    public Vector<Object> getNames(){
+        return convertToVector(NAMES);
+    }
+
+    public void saveDataModel(){
         try {
             FileOutputStream fos=new FileOutputStream("e:/dataModel.obj");
             ObjectOutputStream oos=new ObjectOutputStream(fos);
-            oos.writeObject(dataModel.datum);
+            oos.writeObject(this.getDataVector());
             oos.flush();
             oos.close();
             fos.close();
@@ -56,10 +48,7 @@ public class DataModel extends DefaultTableModel implements Serializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-
 
     public Vector<Vector>  loadDataModel(){
         Vector<Vector> datum=null;
@@ -79,23 +68,5 @@ public class DataModel extends DefaultTableModel implements Serializable{
         finally {
             return datum;
         }
-    }
-
-
-
-//    overrided and modificated methods
-//    +++++++++++++++++++++++++
-    public void setDataVector(Vector dataVector) {
-        super.setDataVector(dataVector, NAMES);
-    }
-
-    @Override
-    public void addRow(Vector rowData) {
-        super.addRow(rowData);
-    }
-
-    @Override
-    public void removeRow(int row) {
-        super.removeRow(row);
     }
 }
