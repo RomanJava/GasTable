@@ -4,18 +4,23 @@ import java.awt.*;
 /**
  * Created by Администратор on 14.09.2017.
  */
-public class MainTable extends JFrame {
+public class View extends JFrame {
     private Controller controller=null;
     public Table table=null;
 
-    public MainTable() throws HeadlessException {
+    public View() throws HeadlessException {
         super("Журнал заправок");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        controller=new Controller(this);
-
         table=new Table();
-        table.dataModel= (DataModel) table.getModel();
+        controller=new Controller(this);
+        table.setModel(controller.getDataModel());
+        controller.setColumnModel(new ColumnModel(table.getColumnModel().getColumns()));
+
+//        controller.setColumnModel(table.getColumnModel());
+
+
+//        table.dataModel= (DataModel) table.getModel();
 //        table.extraction();
 //        controller.setColumnModel((ColumnModel)table.getColumnModel());
 //        controller.setSelectionModel(table.getSelectionModel());
@@ -54,9 +59,11 @@ public class MainTable extends JFrame {
     }
 
     public void restoreView(){
+/*
         table.setModel(controller.getDataModel());
         table.setColumnModel(controller.getColumnModel());
         table.setSelectionModel(controller.getSelectionModel());
+*/
     }
 
 

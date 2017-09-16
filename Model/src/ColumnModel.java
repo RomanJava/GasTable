@@ -2,6 +2,7 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Vector;
 
 /**
@@ -10,10 +11,9 @@ import java.util.Vector;
 public class ColumnModel extends DefaultTableColumnModel {
     String[] names=new String[]{"Пробег","Дата", "Объем", "Сумма", "Цена", "АЗС"};
 //    private final Vector NAMES= new Vector(Arrays.asList(new String[]{"Пробег","Дата", "Объем", "Сумма", "Цена", "АЗС"}));
-    public ColumnModel() {
-        for (String name:names) {
-            TableColumn tableColumn=new TableColumn();
-            tableColumn.setHeaderValue(name);
+    public ColumnModel(Enumeration<TableColumn> columns) {
+        while (columns.hasMoreElements()){
+            TableColumn tableColumn=columns.nextElement();
             addColumn(tableColumn);
         }
     }

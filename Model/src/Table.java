@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -6,19 +8,12 @@ import java.util.Date;
  * Created by Администратор on 16.09.2017.
  */
 public class Table extends JTable {
-    public DataModel dataModel;
-    public ColumnModel columnModel;
-    public SelectionModel selectionModel;
-
-/*
-    static Object[] NAMES=new String[]{"Пробег","Дата", "Объем", "Сумма", "Цена", "АЗС"};
-    static Object[][] EMPTYROW=new Object[][]{{new Integer(0),new Date(),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),""}};
-*/
+    private static final String[] NAMES={"Пробег","Дата", "Объем", "Сумма", "Цена", "АЗС"};
+    private static final Object[][] DATUM={{new Integer(0),new Date(),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),""}};
 
 
     public Table() {
-        super(new Object[][]{{new Integer(0),new Date(),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),""}},
-                new String[]{"Пробег","Дата", "Объем", "Сумма", "Цена", "АЗС"});
+//        super(DATUM,NAMES);
     }
 
 /*
@@ -29,11 +24,9 @@ public class Table extends JTable {
     }
 */
 
-/*
-    public DataModel getDataModel() {
-        return dataModel;
+    public TableModel getDataModel() {
+        return this.getModel();
     }
-*/
 
 /*
     public void setDataModel(DataModel dataModel) {

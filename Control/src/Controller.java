@@ -31,6 +31,7 @@ public class Controller {
     public Controller(View view) {
         this.view=view;
         this.dataModel=new DataModel();
+        this.selectionModel=new SelectionModel();
     }
 
     public int[] getSelectedRows() {
@@ -94,7 +95,7 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             dataModel.saveDataModel();
-//            columnModel.saveColumnModel();
+            columnModel.saveColumnModel();
         }
     }
 
@@ -102,8 +103,12 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             Vector<Vector> dataVector=dataModel.loadDataModel();
             dataModel.setDataVector(dataVector,dataModel.getNames());
-//            columnModel=columnModel.loadColumnModel();
+            columnModel=columnModel.loadColumnModel();
+            view.table.setColumnModel(columnModel);
+/*
+            columnModel=columnModel.loadColumnModel();
             view.restoreView();
+*/
 
 
         }
