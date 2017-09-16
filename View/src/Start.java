@@ -4,7 +4,7 @@
 public class Start {
     static MainTable mainTable=null;
     public static void main(String[] args) {
-        mainTable=new MainTable(new Controller());
+        mainTable=new MainTable();
     }
 
 }
